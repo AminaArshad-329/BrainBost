@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='style.css')}}"
+    />
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+
+    <!-- to use the font family outfit -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Outfit"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- the navigation bar -->
+    <header class="nav-bar-background">
+      <h2 class="brainboost-navbar">BrainBoost</h2>
+    </header>
+
+    <!-- the buttons and enterance sentence -->
+    <p id="ent-sentence">
+      Unlocking Learning Potential: <br />
+      Your Interactive <br />
+      Education Companion
+      <img
+        id="brainboost-logo"
+        alt="BrainBoost logo"
+        src="{{url_for('static', filename='images/brainboostlogo.png')}}"
+      />
+      <a href="{{url_for('signUp')}}">
+        <button id="sign-up">SIGN UP</button>
+      </a>
+      <a href="{{url_for('login')}}">
+        <button id="log-in">LOG IN</button>
+      </a>
+    </p>
+  </body>
+</html>

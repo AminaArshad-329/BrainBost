@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head> <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="{{url_for('static', filename='favicon.ico')}}">
+
+    <!-- to use the font family outfit -->
+    <link href='https://fonts.googleapis.com/css?family=Outfit' rel='stylesheet'>
+</head>
+
+
+
+<body>
+    <!-- the navigation bar -->
+    <div class="nav-bar-background">
+        <div class="logo-container">
+             <img id="brainboost-logo" alt="BrainBoost logo" src="{{url_for('static', filename='brainboostlogo.png')}}"  />
+            <p class="brainboost-navbar" id="rainboost-navbar">rainBoost</p>
+        </div>
+        <header>
+            <nav>
+                <div class="user-actions">
+                    <a href="{{url_for('upload')}}">
+                        <button>Upload File</button>
+                    </a>
+                    <a href="{{url_for('history')}}">
+                        <button>View History</button>
+                    </a>
+                    <div class="profile-menu">
+                        <img src="{{url_for('static', filename='user-icon.png')}}" alt="User Icon">
+                        <ul class="dropdown-menu">
+                            <li><a href="{{url_for('profile')}}">Edit Account</a></li>
+                            <li><a href="{{url_for('logout')}}">Log Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    </div>
+
+    <!-- the center content -->
+    <div class="center-background">
+        <p class="header-msg">Account<img id="user-logo" src="{{url_for('static', filename='user-icon-account.png')}}"  alt="User Icon" />
+        </p>
+        <form action=" " method="POST" class="signup">
+            {{ profile_form.hidden_tag() }}
+            <label class="feild-label">
+                {{ profile_form.username.label(class='form-control-label')}}
+                {% if profile_form.username.errors%}
+                {{ profile_form.username(class='form-control form-control-lg is-invalid')}}
+                <div class="invalid-feedback">
+                    {% for error in profile_form.username.errors %}
+                    <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ profile_form.username(class='form-control form-control')}}
+                {% endif %}
+            </label>
+            <label class="feild-label">
+                {{ profile_form.email.label(class='form-control-label')}}
+                {% if profile_form.email.errors%}
+                {{ profile_form.email(class='form-control form-control-lg is-invalid')}}
+                <div class="invalid-feedback">
+                    {% for error in profile_form.email.errors %}
+                    <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ profile_form.email(class='form-control form-control')}}
+                {% endif %}
+            </label><br>
+
+            <label class="feild-label">
+                <!-- <input type="text" name="username" id="username" class="form-control" placeholder="*******" /> -->
+                {{ profile_form.password.label(class='form-control-label')}}
+                {% if profile_form.password.errors%}
+                {{ profile_form.password(class='form-control form-control-lg is-invalid')}}
+                <div class="invalid-feedback">
+                    {% for error in profile_form.password.errors %}
+                    <span>{{error}}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ profile_form.password(class='form-control form-control')}}
+                {% endif %}
+            </label>
+            <input type="submit" value="SAVE CHANGES" id="savechanges"><br />
+
+            <button id="delete">DELETE ACCOUNT</button>
+
+            <dialog class="delete-account-modal" id="delete-account-modal">
+                <h4 style="margin: 0px; font-size: large;">Delete Account</h4>
+                <div id="modal-cont">
+                <p>Are you sure you want to delete your account?</p>
+                <p>You will permanently lose your:</p>
+                <ul>
+                    <li>Profile</li>
+                    <li>Files and flashcards history</li>
+                </ul>
+                <p>This process cannot be undone.</p>
+                <div class="btn-container">
+                    
+    <form action="{{ url_for('main') }}" method="post">
+        <button type="submit" style="background-color:#FDC179; border-radius: 8px; border: 0px none; width: 100px; height: 25px; margin-left: 54px; ">Delete</button>
+        <button type="button" style="background-color: #499BE6; border-radius: 8px;border: 0px none; width: 50px; width: 100px; height: 25px; margin-left: 54px;" onclick="document.getElementById('delete-account-modal').close();">Cancel</button>
+    </form>
+                   
+                </div>
+                </div>
+            </dialog>
+
+    </div>
+    <script>
+        const deleteBtn = document.getElementById("delete");
+        const modal = document.getElementById("delete-account-modal");
+    
+        deleteBtn.addEventListener("click", () => {
+            modal.showModal();
+        });
+    
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.close();
+            }
+        });
+    </script>
+
+</body>
+
+
+
+
+</html>

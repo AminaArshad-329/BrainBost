@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='style.css')}}"
+    />
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      sizes="64x64"
+      href="{{url_for('static', filename='favicon.ico')}}"
+    />
+
+    <!-- to use the font family outfit -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Outfit"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- the navigation bar -->
+    <div class="nav-bar-background">
+      <div class="logo-container">
+        <img
+          id="brainboost-logo"
+          alt="BrainBoost logo"
+          src="{{url_for('static', filename='brainboostlogo.png')}}"
+        />
+        <p class="brainboost-navbar" id="rainboost-navbar">rainBoost</p>
+      </div>
+      <header>
+        <nav>
+          <div class="user-actions">
+            <a href="{{url_for('upload')}}">
+              <button>Upload File</button>
+            </a>
+            <a href="{{url_for('history')}}">
+              <button>View History</button>
+            </a>
+            <div class="profile-menu">
+              <img
+                src="{{url_for('static', filename='user-icon.png')}}"
+                alt="User Icon"
+              />
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="{{url_for('profile')}}">Edit Account</a>
+                </li>
+                <li><a href="{{url_for('logout')}}">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+
+    <!-- the center content -->
+
+    <div class="center-background">
+      <div class="flashcard" onclick="flipCard(this)">
+        <div class="card">
+          <div class="front">
+            <p>{{ flashcard.question }}</p>
+            <ul>
+              <li>{{ flashcard.choice1 }}</li>
+              <li>{{ flashcard.choice2 }}</li>
+              <li>{{ flashcard.choice3 }}</li>
+              <li>{{ flashcard.choice4 }}</li>
+            </ul>
+          </div>
+          <div class="back">
+            The correct answer is:
+            <p>{{ flashcard.right_answer }}</p>
+
+            <div class="button-container">
+              <a
+                onclick="increaseProgress(1); updateAnswer({{ flashcard.flashcard_id }} , 0);showNextFlashcard()"
+              >
+                <img
+                  id="xmark"
+                  src="{{url_for('static', filename='xmark.png')}}"
+                />
+              </a>
+              <a
+                onclick="increaseProgress(1); updateAnswer({{ flashcard.flashcard_id }}, 1);showNextFlashcard()"
+              >
+                <img
+                  id="check-mark"
+                  src="{{url_for('static', filename='Checkmark.png')}}"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+      </div>
+      <p id="your-progress">YOUR PROGRESS</p>
+    </div>
+
+    <script>
+
+      let currentFlashcardIndex = 0;
+        const flashcards = [{% for flashcard in flashcards %}{{ flashcard }}{% if not loop.last %},{% endif %}{% endfor %}];
+
+        function showNextFlashcard() {
+            const currentFlashcard = document.getElementById(`flashcard-${currentFlashcardIndex}`);
+            currentFlashcard.style.display = "none";
+
+            currentFlashcardIndex++;
+            if (currentFlashcardIndex >= flashcards.length) {
+                // Redirect to the overview page or do something else
+                return;
+            }
+
+            const nextFlashcard = document.getElementById(`flashcard-${currentFlashcardIndex}`);
+            nextFlashcard.style.display = "block";
+        }
+
+        function updateAnswer(flashcardId, savedAnswer) {
+            axios.post(`/update_answer/${flashcardId}/${savedAnswer}`)
+                .then(response => {
+                    // Update the UI if needed
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+        function flipCard(element) {
+            element.querySelector(".card").classList.toggle("flipped");
+        }
+
+        function increaseProgress(value) {
+            const progressBar = document.getElementById("progressBar");
+            let currentWidth = parseInt(progressBar.style.width) || 0;
+            let newWidth = currentWidth + value;
+            if (newWidth > 100) {
+                newWidth = 100;
+            }
+            progressBar.style.width = newWidth + "%";
+
+            // Delay the redirect by a short period to allow the progress bar animation to complete
+            setTimeout(function () {
+                // window.location.href = 'another-page.html'; // Change 'another-page.html' to your desired destination
+            }, 500); // Adjust the delay time (in milliseconds) as needed
+        }
+
+        // Initially hide all flashcards except the first one
+        document.querySelectorAll(".flashcard").forEach((flashcard, index) => {
+            if (index !== 0) {
+                flashcard.style.display = "none";
+            }
+        });
+
+       function updateAnswer(flashcardId, savedAnswer) {
+            axios.post(`/update_answer/${flashcardId}/${savedAnswer}`)
+                .then(response => {
+                    // Update the UI if needed
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+
+      function flipCard(element) {
+        element.querySelector(".card").classList.toggle("flipped");
+      }
+
+      function increaseProgress(value) {
+        const progressBar = document.getElementById("progressBar");
+        let currentWidth = parseInt(progressBar.style.width) || 0;
+        let newWidth = currentWidth + value;
+        if (newWidth > 100) {
+          newWidth = 100;
+        }
+        progressBar.style.width = newWidth + "%";
+
+        // Delay the redirect by a short period to allow the progress bar animation to complete
+        setTimeout(function () {
+          // window.location.href = 'another-page.html'; // Change 'another-page.html' to your desired destination
+        }, 500); // Adjust the delay time (in milliseconds) as needed
+      }
+    </script>
+  </body>
+</html>

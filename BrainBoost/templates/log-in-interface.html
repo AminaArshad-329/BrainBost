@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='style.css')}}"
+    />
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      sizes="64x64"
+      href="{{url_for('static', filename='favicon.ico')}}"
+    />
+
+    <!-- to use the font family outfit -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Outfit"
+      rel="stylesheet"
+    />
+    <!-- to use the eye icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+
+  <body>
+    <!-- the navigation bar -->
+    <div class="nav-bar-background">
+      <div class="logo-container">
+        <img
+          id="brainboost-logo"
+          alt="BrainBoost logo"
+          src="{{url_for('static', filename='brainboostlogo.png')}}"
+        />
+        <p class="brainboost-navbar" id="rainboost-navbar">rainBoost</p>
+      </div>
+    </div>
+    <!-- the center content -->
+    <div class="center-background">
+      <p id="welcome">Welcome</p>
+      <p class="header-msg">Log in</p>
+
+      <form action="#" class="signup" method="POST">
+        {{ form.hidden_tag()}}
+        <div id="User-name-field">
+          <div class="textOnInput">
+            {{ form.username.label(class='form-control-label')}} {% if
+            form.username.errors%} {{ form.username(class='form-control
+            form-control-lg is-invalid')}}
+            <div class="invalid-feedback">
+              {% for error in form.username.errors %}
+              <span>{{error}}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.username(class='form-control')}} {% endif %}
+          </div>
+        </div>
+
+        <div id="password-field">
+          <div class="textOnInput">
+            {{ form.password.label(class='form-control-label')}} {% if
+            form.password.errors%} {{ form.password(class='form-control
+            form-control-lg is-invalid')}}
+            <div class="invalid-feedback">
+              {% for error in form.password.errors %}
+              <span>{{error}}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.password(class='form-control form-control-lg')}}
+            {% endif %}
+            <span><i id="toggler" class="far fa-eye"></i></span>
+          </div>
+        </div>
+
+        {{ form.submit(class='btn btn-outline-info' ,id="loginbutton")}}
+      </form>
+      <!-- <p class="option2">Forgot Password? <a href="google.com">Reset</a></p> -->
+
+      <div class="flex-row-with-gap">
+        <div class="border-box-divider"></div>
+        <p class="stylish-header">OR</p>
+        <div class="horizontal-divider"></div>
+      </div>
+      <a href="{{url_for('signUp')}}">
+        <button class="option3">SIGN UP</button>
+      </a>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+      var password = document.getElementById("password1");
+      var toggler = document.getElementById("toggler");
+      showHidePassword = () => {
+        if (password.type == "password") {
+          password.setAttribute("type", "text");
+          toggler.classList.add("fa-eye-slash");
+        } else {
+          toggler.classList.remove("fa-eye-slash");
+          password.setAttribute("type", "password");
+        }
+      };
+      toggler.addEventListener("click", showHidePassword);
+    </script>
+  </body>
+</html>

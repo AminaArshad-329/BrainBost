@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head> <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="{{url_for('static', filename='favicon.ico')}}">
+
+    <!-- to use the font family outfit -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Outfit"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- the navigation bar -->
+    <div class="nav-bar-background">
+      <div class="logo-container">
+        <img id="brainboost-logo" alt="BrainBoost logo" src="{{url_for('static', filename='brainboostlogo.png')}}"  />
+        <p class="brainboost-navbar" id="rainboost-navbar">rainBoost</p>
+      </div>
+      <header>
+        <nav>
+          <div class="user-actions" id="user-actions2">
+            <a href="{{url_for('upload')}}">
+              <button>Upload File</button>
+            </a>
+            <a href="{{url_for('history')}}">
+              <button>View History</button>
+            </a>
+            <dev id="search-form">
+              <input
+                type="search"
+                id="search-input"
+                placeholder="Search Flashcards"
+              />
+            </dev>
+            <div class="profile-menu">
+              <img
+                id="user-icon"
+                src="{{url_for('static', filename='user-icon.png')}}"
+                alt="User Icon"
+              />
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="{{url_for('profile')}}">Edit Account</a>
+                </li>
+                <li><a href="{{url_for('logout')}}">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+
+    <!-- the center content -->
+    <div class="wrapper">
+      <div id="cards">
+        <p>Flashcard #</p>
+        <p>Question</p>
+        <p>mcs</p>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head> <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="{{url_for('static', filename='favicon.ico')}}">
+    <!-- to use the font family outfit -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Outfit"
+      rel="stylesheet"
+    />
+    <!-- to use the font awesome icons -->
+    <link rel="stylesheet" href="{{url_for('static', filename='all.min.css')}}" />
+  </head>
+
+  <body>
+    <!-- the navigation bar -->
+    <div class="nav-bar-background">
+      <div class="logo-container">
+        <img id="brainboost-logo" alt="BrainBoost logo" src="{{url_for('static', filename='brainboostlogo.png')}}"  />
+        <p class="brainboost-navbar" id="rainboost-navbar">rainBoost</p>
+      </div>
+    </div>
+    <!-- the center content -->
+    <div id="files">
+      <div id="name-container" style="text-align: center; padding-top: 15px">
+        <p id="file-name-display" style="display: inline; color: #2967b5">
+          File_Name1
+        </p>
+        <button class="file-button">
+          <i class="fa-solid fa-pen buleicon"></i>
+        </button>
+        <hr
+          style="
+            color: #cfcfcf;
+            text-align: center;
+            text-decoration: none;
+            width: 160px;
+            margin-top: 17px;
+            margin-bottom: 20px;
+          "
+        />
+        <i class="far fa-clock fa-xs" style="text-align: left"></i>
+        <p style="text-align: left; font-size: 13px; display: inline">
+          Time spent on solving:
+        </p>
+        <p id="time-of-solving"></p>
+        <i class="fa-regular fa-file fa-xs" style="text-align: left"></i>
+        <p style="text-align: left; font-size: 13px; display: initial">
+          Number of flashcards:
+        </p>
+        <p id="time-of-solving" style="display: inline"></p>
+      </div>
+
+      <div id="buttons-container">
+        <div id="share-button">
+          <button class="file-button">
+            <i class="fa-solid fa-share buleicon"></i>
+          </button>
+        </div>
+        <div id="delete-button">
+          <button class="file-button">
+            <i class="fa-solid fa-trash-can buleicon"> </i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // window.onload = function () {
+      //   // Retrieve the file name from local storage
+      //   const fileName = localStorage.getItem("fileName");
+
+      //   // Display the file name on the page
+      //   document.getElementById("file-name-display").innerText = fileName;
+      // };
+      // function renameCard() {
+      //   var newName = prompt("Enter the new name for the card:");
+      //   if (newName !== null && newName.trim() !== "") {
+      //     document.getElementById("cardName").textContent = newName;
+      //   }
+      // }
+
+      // function deleteCard() {
+      //   var confirmDelete = confirm(
+      //     "Are you sure you want to delete this card?"
+      //   );
+      //   if (confirmDelete) {
+      //     var card = document.querySelector(".card");
+      //     card.parentNode.removeChild(card);
+      //   }
+      // }
+
+      // function shareCard() {
+      //   // Replace this URL with the actual URL of the card to be shared
+      //   var shareUrl = window.location.href;
+      //   alert("Share this card:\n" + shareUrl);
+      // }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+  <head> <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- the name appears on the browsers' tab -->
+    <title>BrainBoost</title>
+
+    <!-- link the css file -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
+
+    <!-- to change the favicon on the browsers' tab -->
+    <link rel="icon" type="image/x-icon" sizes="64x64" href="{{url_for('static', filename='favicon.ico')}}">
+
+    <!-- to use the font family outfit -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Outfit"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- the navigation bar -->
+    <div class="nav-bar-background">
+      <div class="logo-container">
+         <img id="brainboost-logo" alt="BrainBoost logo" src="{{url_for('static', filename='brainboostlogo.png')}}"  />
+
+        <p class="brainboost-navbar" id="rainboost-navbar">rainBoost</p>
+      </div>
+      <header>
+        <nav>
+          <div class="user-actions">
+            <a href="{{url_for('upload')}}">
+              <button>Upload File</button>
+            </a>
+            <a href="{{url_for('history')}}">
+              <button>View History</button>
+            </a>
+            <div class="profile-menu">
+              <img src="{{url_for('static', filename='user-icon.png')}}" alt="User Icon" />
+              <ul class="dropdown-menu">
+                <li>
+                  <a href="{{url_for('profile')}}">Edit Account</a>
+                </li>
+                <li><a href="{{url_for('logout')}}">Log Out</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+    </div>
+
+    <!-- the center content -->
+    <div class="center-background">
+      <p id="welcome">Upload PDF</p>
+
+      <div id="dropArea" class="drop-area">
+        
+        <img
+          id="drag-cloud"
+          src="{{url_for('static', filename='dragimg.png')}}"
+          alt="drag and drop image"
+        />
+
+        <p id="drag-drop-sent">Drag and Drop File Here</p>
+
+        <div id="or-container">
+          <div id="or-sent">OR</div>
+          <div id="or-left"></div>
+          <div id="or-right"></div>
+        </div>
+
+     
+
+        <form method='POST' enctype='multipart/form-data'>
+          {{form.hidden_tag()}}
+          <label id="browseButton"
+          >{{form.file()}}
+          <input type="file" id="fileInput" onchange="displaySelectedFile()" />
+        </label>
+        <div id="selectedFile"></div>
+        <a href="{{url_for('flashcards')}}"
+          ><button id="Uploadbutton">{{form.submit()}}</button></a
+        >
+        <div
+          id="errorMessage"
+          class="error-message"
+          style="text-align: center"
+        ></div>
+          
+          
+      </form>
+      
+        
+        <div id="filenametodisplay"></div>
+      </div>
+    </div>
+
+    <script>
+      		// Get the form elements
+		
+			const fileInput = document.getElementById('browseButton');
+			
+			// Add an event listener to the "Next" button
+			nextBtn.addEventListener('click', (event) => {
+    // Prevent the form from being submitted
+    event.preventDefault();
+
+    // Make sure the file name input is not empty
+    //const fileName = document.getElementById('file-name').value.trim();
+    //if (fileName === '') {
+      //  alert('يرجى إدخال اسم الملف');
+        //return;
+    //}
+
+    // Send the file name to the server
+    fetch('/save_analysis_name', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `fileName=${encodeURIComponent(fileName)}`,
+		credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        // Hide the name form and show the upload form
+        nameForm.style.display = 'none';
+        uploadForm.style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+// Add an event listener to the file upload form
+uploadForm.addEventListener('submit', (event) => {
+    // Prevent the form from being submitted
+    event.preventDefault();
+
+    // Get the selected file
+    const file = fileInput.files[0];
+    if (!file) {
+        alert('يرجى اختيار ملف');
+        return;
+    }
+
+    // Create a FormData object and append the file
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // Send the file to the server
+// Send the file to the server
+fetch('/upload_file', {
+    method: 'POST',
+    body: formData,
+    credentials: 'include'
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    // Here is where you get the JSON response
+    return response.json();
+})
+.then(data => {
+    // Here you can handle the JSON response
+    console.log(data);
+
+    // If the server is sending back a redirect URL, you can use it like this:
+    if (data.redirect) {
+        window.location.href = data.redirect;
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+
+});
+
+
+
+
+
+
+
+
+
+     // function displaySelectedFile() {
+       // const fileInput = document.getElementById("fileInput");
+        //const selectedFileDisplay = document.getElementById("selectedFile");
+        //const errorMessage = document.getElementById("errorMessage");
+
+        //if (fileInput.files.length > 0) {
+          //const selectedFile = fileInput.files[0];
+          //const selectedFileName = selectedFile.name;
+          // check if the browsed pdf is pdf
+          //if (selectedFile.type === "application/pdf") {
+            // Redirect to another page
+            //window.location.href = "view-flashcards-interface.html";
+         // } else {
+            // Display error message
+           // errorMessage.innerText = "Error: Only PDF files are allowed.";
+           // selectedFileDisplay.innerHTML = "";
+         // }
+        //} else {
+          //errorMessage.innerText = "";
+          //selectedFileDisplay.innerHTML = "No file selected";
+      //  }
+     // }
+      // check if the dropped file is pdf
+      //const dropArea = document.getElementById("dropArea");
+      //const errorMessage = document.getElementById("errorMessage");
+
+      //dropArea.addEventListener("dragover", (event) => {
+        //event.preventDefault();
+     // });
+
+      //dropArea.addEventListener("drop", (event) => {
+        //event.preventDefault();
+        //const files = event.dataTransfer.files;
+        //const pdfFile = Array.from(files).find(
+         // (file) => file.type === "application/pdf"
+       // );
+
+        //check if the uploaded file is pdf file
+        //if (pdfFile) {
+          // Handle PDF file
+          //errorMessage.innerText = "";
+          //const reader = new FileReader();
+          //reader.onload = function (e) {
+            //console.log("PDF File:", e.target.result);
+            // Redirect to another page
+            //window.location.href = "view-flashcards-interface.html";
+            //"{{url_for('flashcards')}}"
+            /////////////////////////////////
+          //};
+          //reader.readAsDataURL(pdfFile);
+        //} else {
+          // Display error message
+          //errorMessage.innerText = "Error: Only PDF files are allowed.";
+       // }
+     // });
+
+      // read the name of the uploaded file
+      // window.onload = function () {
+      //   document
+      //     .getElementById("fileInput")
+      //     .addEventListener("change", getFileName);
+      // };
+      // const getFileName = (event) => {
+      //   const files = event.target.files;
+      //   const fileName = files[0].name;
+      //   console.log("file name: ", fileName);
+      // };
+      // localStorage.setItem("fileName", fileName);
+      // document.getElementById("file-nametodisplay").innerText = fileName;
+    </script>
+  </body>
+</html>
